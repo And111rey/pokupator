@@ -1,11 +1,10 @@
 import { View, Text, StatusBar, SafeAreaView } from "react-native";
-
 import Screen from "@/components/Screen";
 
-export default function ShoppingList() {
+export default function Add() {
   return (
-    <Screen>
-      <Text>SOME</Text>
-    </Screen>
+      <Screen>
+        <Text>Add</Text>
+      </Screen>
   );
 }
