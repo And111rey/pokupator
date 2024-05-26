@@ -8,10 +8,12 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import nextId from "react-id-generator";
 import Screen from "@/components/Screen";
 import Button from "@/components/Button";
+ import {AsyncStorageActions} from "@/hooks/useDataAsyncStorage"
 
 type ListElement = {
   id: string;
@@ -23,13 +25,15 @@ export default function Add() {
   const [text, setText] = useState<string>("");
   const [listName, setListName] = useState<string>("");
   const style = useStyle();
+  
+  const ASDataAction = new AsyncStorageActions()
+
 
   const addElement = () => {
-    
-    if(text){
+    if (text) {
       const element = { id: nextId(listName), el: text };
-    setList((prevList) => [...prevList, element]);
-    setText("");
+      setList((prevList) => [...prevList, element]);
+      setText("");
     }
   };
 
@@ -41,6 +45,12 @@ export default function Add() {
   const deleteElement = (id: string) => {
     setList((p) => p.filter((el) => el.id != id));
   };
+ 
+
+  useEffect(() => {
+    ASDataAction.getData(listName);
+    ASDataAction.getAllKeys()
+  });
 
   return (
     <Screen styles={{ alignItems: "center" }}>
@@ -54,7 +64,9 @@ export default function Add() {
                   onPress={() => deleteElement(e.id)}
                   style={style.renderedElem}
                   key={i}
-                ><Text style={{color: "white", }}>{`${i + 1}) ${e.el}`}</Text></TouchableOpacity>
+                >
+                  <Text style={{ color: "white" }}>{`${i + 1}) ${e.el}`}</Text>
+                </TouchableOpacity>
               );
             })}
           </ScrollView>
@@ -62,7 +74,11 @@ export default function Add() {
           <TextInput value={text} onChangeText={setText} style={style.txtInp} />
           <View style={style.btnBox}>
             <Button title="Add to list" onPress={addElement} />
-            <Button title="SAVE" type='primary' onPress={() => {}} />
+            <Button
+              title="SAVE"
+              type="primary"
+              onPress={() => ASDataAction.storeData(listName, list)}
+            />
           </View>
         </>
       ) : (
@@ -105,6 +121,7 @@ const useStyle = () => {
       borderWidth: 1,
       borderRadius: 4,
       margin: 10,
+      color: "white",
     },
     btnBox: {
       flexDirection: "row",

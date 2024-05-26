@@ -20,7 +20,7 @@ export default function ListElement({ data }: ListElementProps) {
         <Text style={style.txt}>{data}</Text>
       </View>
 
-      <Button title={isDone? "Return": "Done" } onPress={()=>setIsDone((p) => !p)}/>
+      {/* <Button title={isDone? "Return": "Done" } onPress={()=>setIsDone((p) => !p)}/> */}
       <TouchableOpacity
        onPress={()=>setIsDone((p) => !p)}
         style={{

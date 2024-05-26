@@ -8,7 +8,7 @@ export default function ShoppingList() {
   return (
     <Screen>
       <ScrollView style={styles.scrollContainer}>
-        <ListElement data={"MOLOKsdlfjslkdjfskldjfksjdlkfjslkdjflksjdfklsjdlkfjsldkfjslkjO"} />
+        <ListElement data={"MOLOKO"} />
         <ListElement data={"Smetana"}  />
         <ListElement data={"Okorok"} />
       </ScrollView>
