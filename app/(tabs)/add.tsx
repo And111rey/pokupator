@@ -14,6 +14,8 @@ import nextId from "react-id-generator";
 import Screen from "@/components/Screen";
 import Button from "@/components/Button";
  import {AsyncStorageActions} from "@/hooks/useDataAsyncStorage"
+ import { router, useLocalSearchParams, useGlobalSearchParams } from "expo-router";
+
 
 type ListElement = {
   id: string;
@@ -46,6 +48,14 @@ export default function Add() {
     setList((p) => p.filter((el) => el.id != id));
   };
  
+  const saveElement = async () => {
+    await ASDataAction.storeData(listName, list);
+    const data: String[] = await ASDataAction.getAllKeys();
+    // AsyncStorage.clear()
+    router.push({ pathname: "listOfList", params:  {data}  });
+    setListName("")
+    setList([])
+  };
 
   useEffect(() => {
     ASDataAction.getData(listName);
@@ -77,7 +87,7 @@ export default function Add() {
             <Button
               title="SAVE"
               type="primary"
-              onPress={() => ASDataAction.storeData(listName, list)}
+              onPress={saveElement}
             />
           </View>
         </>

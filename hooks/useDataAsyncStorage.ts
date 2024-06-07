@@ -14,6 +14,7 @@ export  class AsyncStorageActions {
             const jsonValue = JSON.stringify(value);
             await AsyncStorage.setItem(name, jsonValue);
             console.log("SAVE, ", jsonValue);
+            // plase for loader
           } catch (e) {
             console.log("problem saving data")
           }
